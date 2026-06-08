@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Description: >
+  MLOps Lab 11 - Bezserwerowa aplikacja do analizy sentymentu z ONNX Runtime
+
+Parameters:
+  ImageUri:
+    Type: String
+    Description: "Adres URL obrazu Docker w AWS ECR (wstrzykiwany automatycznie przez GitHub Actions)"
+  LambdaExecutionRoleArn:
+    Type: String
+    Description: "ARN roli IAM (LabRole), z ktorej bedzie korzystac funkcja Lambda"
+
+Resources:
+  SentimentFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageUri: !Ref ImageUri
+      Role: !Ref LambdaExecutionRoleArn
+      MemorySize: 512
+      Timeout: 30
+      Events:
+        Api:
+          Type: HttpApi
+          Properties:
+            Path: /predict
+            Method: post
+
+Outputs:
+  ApiUrl:
+    Description: "Publiczny adres URL Twojego endpointu API Gateway do testowania"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/predict"

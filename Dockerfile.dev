@@ -1,0 +1,26 @@
+# Etap budowania (Build stage)
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+
+WORKDIR /app
+
+# Kopiowanie definicji zależności
+COPY pyproject.toml uv.lock ./
+
+# Synchronizacja grupy produkcyjnej
+RUN uv sync --frozen --group inference --no-install-project
+
+# Etap uruchomieniowy (Runtime stage) dla lokalnego testowania
+FROM python:3.12-slim-bookworm
+
+WORKDIR /app
+
+# Kopiowanie wirtualnego środowiska z etapu builder
+COPY --from=builder /app/.venv /app/.venv
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Kopiowanie kodu aplikacji oraz artefaktów ONNX
+COPY sentiment_app ./sentiment_app
+COPY model ./model
+
+# Uruchomienie standardowej aplikacji FastAPI lokalnie przez uvicorn
+CMD ["uvicorn", "sentiment_app.app:app", "--host", "0.0.0.0", "--port", "8000"]

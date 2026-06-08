@@ -1,0 +1,17 @@
+﻿# Środowiska wirtualne i cache
+.venv/
+__pycache__/
+.pytest_cache/
+.coverage
+
+# Ciężkie pliki modeli (generujemy je skryptem, nie trzymamy w Gicie)
+model/
+*.onnx
+*.json
+
+# Jawne ignorowanie skryptu z kluczami i sekretów AWS
+run_local_download.bat
+.env
+.env.*
+.aws/
+credentials

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.git/
+.github/
+tests/
+# Ignorujemy oryginalne, duże modele pobrane z S3 - do kontenera trafiają wyłącznie skompilowane wersje .onnx
+model/sentence_transformer.model/
+model/classifier.joblib

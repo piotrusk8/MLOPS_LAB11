@@ -1,0 +1,36 @@
+[project]
+name = "sentiment-analysis-onnx-pipeline"
+version = "0.1.0"
+description = "MLOps Lab 11 - CI/CD Pipeline with ONNX and AWS Lambda"
+requires-python = ">=3.12"
+dependencies = [
+    "onnxscript>=0.7.0",
+]
+
+[project.optional-dependencies]
+integration = [
+    "pytest>=8.0.0",
+    "ruff>=0.3.0",
+    "httpx>=0.27.0"
+]
+deployment = [
+    "boto3>=1.34.0",
+    "torch>=2.2.0",
+    "transformers>=4.38.0",
+    "skl2onnx>=1.16.0",
+    "joblib>=1.3.0",
+    "numpy>=1.26.0"
+]
+inference = [
+    "fastapi>=0.110.0",
+    "uvicorn>=0.28.0",
+    "onnxruntime>=1.17.0",
+    "tokenizers>=0.15.0",
+    "mangum>=0.17.0",
+    "awslambdaric>=2.0.0",
+    "numpy>=1.26.0",
+    "pydantic>=2.6.0"
+]
+
+[tool.uv]
+managed = true
